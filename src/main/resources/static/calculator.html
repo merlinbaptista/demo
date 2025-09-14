@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGPA Calculator</title>
+</head>
+<body>
+    <h1>CGPA Calculator</h1>
+    <a href="page1.html">← Back to Dashboard</a>
+    
+    <h2>Calculate CGPA</h2>
+    <form id="cgpaForm">
+        <table border="1">
+            <tr>
+                <th>Subject</th>
+                <th>Credits</th>
+                <th>Grade Points</th>
+            </tr>
+            <tr>
+                <td><input type="text" name="subject1" placeholder="Subject 1"></td>
+                <td><input type="number" name="credits1" placeholder="Credits"></td>
+                <td><input type="number" name="grade1" placeholder="Grade Points" step="0.1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" name="subject2" placeholder="Subject 2"></td>
+                <td><input type="number" name="credits2" placeholder="Credits"></td>
+                <td><input type="number" name="grade2" placeholder="Grade Points" step="0.1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" name="subject3" placeholder="Subject 3"></td>
+                <td><input type="number" name="credits3" placeholder="Credits"></td>
+                <td><input type="number" name="grade3" placeholder="Grade Points" step="0.1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" name="subject4" placeholder="Subject 4"></td>
+                <td><input type="number" name="credits4" placeholder="Credits"></td>
+                <td><input type="number" name="grade4" placeholder="Grade Points" step="0.1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" name="subject5" placeholder="Subject 5"></td>
+                <td><input type="number" name="credits5" placeholder="Credits"></td>
+                <td><input type="number" name="grade5" placeholder="Grade Points" step="0.1"></td>
+            </tr>
+        </table>
+        <br>
+        <button type="button" onclick="calculateCGPA()">Calculate CGPA</button>
+        <button type="reset">Clear</button>
+    </form>
+
+    <div id="result" style="margin-top: 20px; font-weight: bold; color: blue;"></div>
+
+    <h2>Percentage Calculator</h2>
+    <form id="percentageForm">
+        <label>Total Marks: <input type="number" id="totalMarks" placeholder="Enter total marks"></label><br><br>
+        <label>Obtained Marks: <input type="number" id="obtainedMarks" placeholder="Enter obtained marks"></label><br><br>
+        <button type="button" onclick="calculatePercentage()">Calculate Percentage</button>
+    </form>
+    
+    <div id="percentageResult" style="margin-top: 20px; font-weight: bold; color: green;"></div>
+
+    <h3>Grade Scale Reference</h3>
+    <table border="1">
+        <tr>
+            <th>Grade</th>
+            <th>Points</th>
+            <th>Percentage</th>
+        </tr>
+        <tr><td>A+</td><td>10</td><td>90-100%</td></tr>
+        <tr><td>A</td><td>9</td><td>80-89%</td></tr>
+        <tr><td>B+</td><td>8</td><td>70-79%</td></tr>
+        <tr><td>B</td><td>7</td><td>60-69%</td></tr>
+        <tr><td>C+</td><td>6</td><td>55-59%</td></tr>
+        <tr><td>C</td><td>5</td><td>50-54%</td></tr>
+        <tr><td>D</td><td>4</td><td>40-49%</td></tr>
+        <tr><td>F</td><td>0</td><td>Below 40%</td></tr>
+    </table>
+
+    <script>
+        function calculateCGPA() {
+            let totalCredits = 0;
+            let totalPoints = 0;
+            
+            for (let i = 1; i <= 5; i++) {
+                const credits = parseFloat(document.querySelector(`input[name="credits${i}"]`).value) || 0;
+                const grade = parseFloat(document.querySelector(`input[name="grade${i}"]`).value) || 0;
+                
+                if (credits > 0 && grade > 0) {
+                    totalCredits += credits;
+                    totalPoints += credits * grade;
+                }
+            }
+            
+            if (totalCredits > 0) {
+                const cgpa = (totalPoints / totalCredits).toFixed(2);
+                const percentage = (cgpa * 9.5).toFixed(1);
+                document.getElementById('result').innerHTML = `
+                    Your CGPA: ${cgpa}<br>
+                    Equivalent Percentage: ${percentage}%<br>
+                    Total Credits: ${totalCredits}
+                `;
+            } else {
+                document.getElementById('result').innerHTML = 'Please enter valid credits and grades.';
+            }
+        }
+        
+        function calculatePercentage() {
+            const total = parseFloat(document.getElementById('totalMarks').value);
+            const obtained = parseFloat(document.getElementById('obtainedMarks').value);
+            
+            if (total > 0 && obtained >= 0) {
+                const percentage = ((obtained / total) * 100).toFixed(2);
+                const cgpa = (percentage / 9.5).toFixed(2);
+                document.getElementById('percentageResult').innerHTML = `
+                    Percentage: ${percentage}%<br>
+                    Equivalent CGPA: ${cgpa}
+                `;
+            } else {
+                document.getElementById('percentageResult').innerHTML = 'Please enter valid marks.';
+            }
+        }
+    </script>
+</body>
+</html>
